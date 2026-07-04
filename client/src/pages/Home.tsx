@@ -247,6 +247,10 @@ export default function Home() {
             <a href="#galeria" className="transition hover:text-white">Simulador</a>
             <a href="#simbologia" className="transition hover:text-white">Simbologia</a>
             <a href="#contato" className="transition hover:text-white">Contato</a>
+            <a href="/simulador" className="flex items-center gap-1.5 rounded-lg border border-[#38bdf8]/50 bg-[#38bdf8]/10 px-3 py-1.5 font-semibold text-[#7dd3fc] transition hover:bg-[#38bdf8]/20">
+              <Zap className="h-3.5 w-3.5" />
+              Simulador online
+            </a>
           </nav>
           <a
             href={PLAY_STORE_URL}
@@ -507,14 +511,21 @@ export default function Home() {
                     Acesso ao simulador
                   </h2>
                   <p className="mt-3 leading-relaxed text-muted-foreground">
-                    O simulador está disponível na Play Store e o acesso completo é
-                    liberado pelo administrador. Depois de instalar o aplicativo,
-                    entre em contato pelo e-mail abaixo para solicitar seu cadastro.
+                    Agora você pode usar o simulador direto aqui no site! O acesso é
+                    liberado pelo administrador: se você ainda não tem e-mail e senha
+                    cadastrados, solicite pelo e-mail abaixo.
                   </p>
                   <div className="mt-5 flex flex-wrap gap-3">
                     <a
+                      href="/simulador"
+                      className="glow-pulse inline-flex items-center gap-2 rounded-lg bg-[#166184] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-115"
+                    >
+                      <Zap className="h-4 w-4" />
+                      Entrar no simulador online
+                    </a>
+                    <a
                       href={`mailto:${EMAIL_SUPORTE}?subject=${encodeURIComponent("Solicitação de acesso ao simulador JSF Elétrico")}&body=${encodeURIComponent("Olá, quero solicitar acesso ao simulador JSF Elétrico.\n\nMeu nome: \nMeu e-mail: ")}`}
-                      className="inline-flex items-center gap-2 rounded-lg bg-[#166184] px-5 py-2.5 text-sm font-bold text-white transition hover:brightness-115"
+                      className="inline-flex items-center gap-2 rounded-lg border border-[#38bdf8]/40 bg-[#38bdf8]/10 px-5 py-2.5 text-sm font-bold text-[#7dd3fc] transition hover:bg-[#38bdf8]/20"
                     >
                       <Mail className="h-4 w-4" />
                       Solicitar acesso por e-mail
