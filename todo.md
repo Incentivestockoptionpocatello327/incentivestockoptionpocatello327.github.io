@@ -55,3 +55,9 @@
 ## Fase 9 — Dados estruturados (SEO)
 - [x] JSON-LD schema.org MobileApplication na página inicial (nome, Android, categoria educacional, Play Store, grátis, autor)
 - [x] JSON validado, build ok e verificado na página servida
+
+## Fase 10 — Open Graph / compartilhamento
+- [x] Imagem OG 1200x630 gerada a partir do banner da marca e enviada ao storage
+- [x] Meta tags og:title, og:description, og:image, og:url, og:locale na página inicial
+- [x] Twitter Card (summary_large_image)
+- [x] Build ok, 10 tags OG verificadas na página servida, imagem acessível (HTTP 200)
