@@ -45,3 +45,9 @@
 - [x] Registrar rota /sobre no App.tsx
 - [x] Adicionar link "Sobre" no menu do header e no rodapé da Home
 - [x] Verificar visual (desktop e mobile), testes e checkpoint
+
+## Fase 8 — Correções de SEO (página /)
+- [x] Meta keywords com 6 palavras-chave relevantes
+- [x] Meta description reescrita com 154 caracteres (entre 50 e 160)
+- [x] Texto alternativo adicionado à imagem do rodapé (única sem alt)
+- [x] Build validado e checkpoint salvo

@@ -591,7 +591,7 @@ export default function Home() {
         <Divisor className="container pt-6" />
         <div className="container flex flex-col items-center gap-6 py-8 md:flex-row md:justify-between">
           <div className="flex items-center gap-3">
-            <img src={ICONE_APP} alt="" className="h-9 w-9 rounded-lg" />
+            <img src={ICONE_APP} alt="Logotipo do JSF Elétrico" className="h-9 w-9 rounded-lg" />
             <div>
               <p className="font-display text-sm font-bold text-white">JSF Elétrico</p>
               <p className="text-xs text-muted-foreground">
