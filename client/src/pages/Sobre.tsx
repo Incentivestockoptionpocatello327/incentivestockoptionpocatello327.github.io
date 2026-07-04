@@ -3,6 +3,7 @@
  * de desenvolvimento do JSF Elétrico. Mesmo estilo "Painel de Comando" do site.
  */
 import { motion } from "framer-motion";
+import { useSeo } from "@/hooks/useSeo";
 import {
   ArrowLeft,
   GraduationCap,
@@ -70,6 +71,13 @@ const MARCOS = [
 ];
 
 export default function Sobre() {
+  useSeo({
+    title: "Sobre — JSF Elétrico",
+    description:
+      "Conheça Joelson da Silva Francisco, técnico em eletrotécnica, e a história do JSF Elétrico, o simulador de comandos elétricos para Android.",
+    url: "https://jsfeletrico.com/sobre",
+  });
+
   return (
     <div className="min-h-screen circuit-grid text-foreground">
       {/* ===== Header ===== */}

@@ -5,6 +5,7 @@
  * administrador. Contatos: jsfeletrico@gmail.com.
  */
 import { useState } from "react";
+import { useSeo } from "@/hooks/useSeo";
 import { motion } from "framer-motion";
 import {
   Play,
@@ -225,6 +226,13 @@ function Divisor({ className = "" }: { className?: string }) {
 /* ---------------- página ---------------- */
 
 export default function Home() {
+  useSeo({
+    title: "JSF Elétrico — Simulador de Comandos Elétricos",
+    description:
+      "Simulador de comandos elétricos para Android: monte diagramas, simule partidas de motores e aprenda na prática. Baixe grátis o JSF Elétrico na Play Store.",
+    url: "https://jsfeletrico.com/",
+  });
+
   const [imgAmpliada, setImgAmpliada] = useState<null | { src: string; titulo: string }>(null);
 
   return (

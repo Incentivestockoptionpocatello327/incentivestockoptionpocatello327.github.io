@@ -6,6 +6,7 @@
  * Sempre com botão "Voltar ao site".
  */
 import { useEffect, useMemo, useState } from "react";
+import { useSeo } from "@/hooks/useSeo";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import {
@@ -828,6 +829,13 @@ function PainelSolicitacoes() {
 type Aba = "simulador" | "usuarios" | "solicitacoes" | "auditoria";
 
 export default function Simulador() {
+  useSeo({
+    title: "Simulador Online — JSF Elétrico",
+    description:
+      "Acesse o simulador de comandos elétricos JSF Elétrico direto no navegador. Monte diagramas e simule partidas de motores com acesso liberado pelo administrador.",
+    url: "https://jsfeletrico.com/simulador",
+  });
+
   const utils = trpc.useUtils();
   const { data: sessao, isLoading } = trpc.sim.me.useQuery();
   const [aba, setAba] = useState<Aba>("simulador");

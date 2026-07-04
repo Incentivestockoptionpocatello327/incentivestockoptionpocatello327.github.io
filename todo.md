@@ -61,3 +61,10 @@
 - [x] Meta tags og:title, og:description, og:image, og:url, og:locale na página inicial
 - [x] Twitter Card (summary_large_image)
 - [x] Build ok, 10 tags OG verificadas na página servida, imagem acessível (HTTP 200)
+
+## Fase 11 — Open Graph nas páginas Sobre e Simulador
+- [x] Hook useSeo (título, description, og:*, twitter:* dinâmicos por rota)
+- [x] Aplicado em /sobre com título e descrição próprios
+- [x] Aplicado em /simulador com título e descrição próprios
+- [x] Aplicado em / para restaurar tags padrão na navegação SPA
+- [x] Tipos, testes (9/9) e build ok; páginas verificadas visualmente
