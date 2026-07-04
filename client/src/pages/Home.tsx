@@ -246,6 +246,7 @@ export default function Home() {
             <a href="#recursos" className="transition hover:text-white">Recursos</a>
             <a href="#galeria" className="transition hover:text-white">Simulador</a>
             <a href="#simbologia" className="transition hover:text-white">Simbologia</a>
+            <a href="/sobre" className="transition hover:text-white">Sobre</a>
             <a href="#contato" className="transition hover:text-white">Contato</a>
             <a href="/simulador" className="flex items-center gap-1.5 rounded-lg border border-[#38bdf8]/50 bg-[#38bdf8]/10 px-3 py-1.5 font-semibold text-[#7dd3fc] transition hover:bg-[#38bdf8]/20">
               <Zap className="h-3.5 w-3.5" />
@@ -599,6 +600,9 @@ export default function Home() {
             </div>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+            <a href="/sobre" className="transition hover:text-white">
+              Sobre
+            </a>
             <a
               href={PLAY_STORE_URL}
               target="_blank"

@@ -39,3 +39,9 @@
 - [x] Formulário "Solicitar acesso" na tela de login (nome + e-mail + mensagem)
 - [x] Aba "Solicitações" no painel admin com badge de pendentes, aprovar/dispensar
 - [x] Testes do fluxo completo + vitest + checkpoint
+
+## Fase 7 — Página "Sobre"
+- [x] Criar página Sobre.tsx com a história de Joelson e a trajetória do app (estilo do site)
+- [x] Registrar rota /sobre no App.tsx
+- [x] Adicionar link "Sobre" no menu do header e no rodapé da Home
+- [x] Verificar visual (desktop e mobile), testes e checkpoint
