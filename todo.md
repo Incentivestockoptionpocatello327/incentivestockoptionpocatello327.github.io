@@ -68,3 +68,8 @@
 - [x] Aplicado em /simulador com título e descrição próprios
 - [x] Aplicado em / para restaurar tags padrão na navegação SPA
 - [x] Tipos, testes (9/9) e build ok; páginas verificadas visualmente
+
+## Fase 12 — Sitemap e robots
+- [x] sitemap.xml em client/public com as 3 páginas (/, /sobre, /simulador)
+- [x] robots.txt com Allow /, Disallow /api/ e link do sitemap
+- [x] XML validado, HTTP 200 no dev server e arquivos presentes no build
