@@ -51,16 +51,124 @@ const EVENTO_LABEL: Record<string, { label: string; cor: string }> = {
   admin_redefinir_senha: { label: "Admin: redefiniu senha", cor: "text-violet-400" },
   admin_excluir_usuario: { label: "Admin: excluiu usuário", cor: "text-red-400" },
   admin_definir_expiracao: { label: "Admin: alterou expiração", cor: "text-violet-400" },
+  solicitacao_acesso: { label: "Solicitou acesso", cor: "text-cyan-400" },
+  admin_aprovar_solicitacao: { label: "Admin: aprovou solicitação", cor: "text-emerald-400" },
+  admin_dispensar_solicitacao: { label: "Admin: dispensou solicitação", cor: "text-slate-400" },
 };
 
 /* ------------------------------------------------------------------ */
 /* Tela de login                                                       */
 /* ------------------------------------------------------------------ */
 
+function FormSolicitarAcesso({ onVoltar }: { onVoltar: () => void }) {
+  const [nome, setNome] = useState("");
+  const [email, setEmail] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const [enviado, setEnviado] = useState(false);
+
+  const solicitar = trpc.sim.solicitarAcesso.useMutation({
+    onSuccess: () => {
+      setEnviado(true);
+      toast.success("Solicitação enviada!");
+    },
+    onError: e => toast.error(e.message),
+  });
+
+  if (enviado) {
+    return (
+      <div className="jsf-panel-teal p-7 text-center sm:p-8">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/15">
+          <Mail className="h-7 w-7 text-emerald-400" />
+        </div>
+        <h2 className="font-display mt-4 text-xl font-bold text-white">Solicitação enviada!</h2>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          O administrador recebeu seu pedido e vai criar seu acesso. Você será avisado
+          pelo e-mail informado com a sua senha de entrada.
+        </p>
+        <button
+          onClick={onVoltar}
+          className="mt-5 inline-flex items-center gap-2 rounded-lg border border-white/20 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+        >
+          <ArrowLeft className="h-4 w-4" /> Voltar ao login
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="jsf-panel-teal p-7 sm:p-8">
+      <h2 className="font-display text-xl font-bold text-white">Solicitar acesso</h2>
+      <p className="mt-1 text-xs text-muted-foreground">
+        Preencha seus dados. O administrador será notificado e criará seu acesso.
+      </p>
+      <form
+        className="mt-5 space-y-4"
+        onSubmit={e => {
+          e.preventDefault();
+          solicitar.mutate({ nome, email, mensagem: mensagem || undefined });
+        }}
+      >
+        <div>
+          <label htmlFor="sol-nome" className="mb-1.5 block text-sm font-medium text-white/85">Seu nome</label>
+          <input
+            id="sol-nome"
+            required
+            maxLength={160}
+            value={nome}
+            onChange={e => setNome(e.target.value)}
+            placeholder="Nome completo"
+            className="w-full rounded-lg border border-border bg-background/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#38bdf8]"
+          />
+        </div>
+        <div>
+          <label htmlFor="sol-email" className="mb-1.5 block text-sm font-medium text-white/85">Seu e-mail</label>
+          <input
+            id="sol-email"
+            type="email"
+            required
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="seu@email.com"
+            className="w-full rounded-lg border border-border bg-background/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#38bdf8]"
+          />
+        </div>
+        <div>
+          <label htmlFor="sol-msg" className="mb-1.5 block text-sm font-medium text-white/85">Mensagem (opcional)</label>
+          <textarea
+            id="sol-msg"
+            rows={3}
+            maxLength={500}
+            value={mensagem}
+            onChange={e => setMensagem(e.target.value)}
+            placeholder="Conte por que quer usar o simulador..."
+            className="w-full resize-none rounded-lg border border-border bg-background/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#38bdf8]"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={solicitar.isPending}
+          className="glow-pulse flex w-full items-center justify-center gap-2 rounded-lg bg-[#166184] py-3 text-sm font-bold text-white transition hover:brightness-115 disabled:opacity-60"
+        >
+          {solicitar.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Mail className="h-4 w-4" />}
+          Enviar solicitação
+        </button>
+        <button
+          type="button"
+          onClick={onVoltar}
+          className="flex w-full items-center justify-center gap-2 rounded-lg border border-white/15 bg-white/5 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/10"
+        >
+          <ArrowLeft className="h-4 w-4" /> Voltar ao login
+        </button>
+      </form>
+    </div>
+  );
+}
+
 function TelaLogin({ onLogged }: { onLogged: () => void }) {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [mostrarSenha, setMostrarSenha] = useState(false);
+  const [modoSolicitar, setModoSolicitar] = useState(false);
   const login = trpc.sim.login.useMutation({
     onSuccess: () => {
       toast.success("Login realizado!");
@@ -74,6 +182,16 @@ function TelaLogin({ onLogged }: { onLogged: () => void }) {
   )}&body=${encodeURIComponent(
     "Olá! Quero solicitar acesso ao simulador JSF Elétrico no site.\n\nMeu nome: \nMeu e-mail: "
   )}`;
+
+  if (modoSolicitar) {
+    return (
+      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10">
+        <div className="w-full max-w-md">
+          <FormSolicitarAcesso onVoltar={() => setModoSolicitar(false)} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10">
@@ -153,13 +271,22 @@ function TelaLogin({ onLogged }: { onLogged: () => void }) {
           <p className="text-sm text-muted-foreground">
             Ainda não tem acesso? O cadastro é feito pelo administrador.
           </p>
-          <a
-            href={mailHref}
-            className="mt-3 inline-flex items-center gap-2 rounded-lg border border-[#38bdf8]/40 bg-[#38bdf8]/10 px-4 py-2 text-sm font-semibold text-[#7dd3fc] transition hover:bg-[#38bdf8]/20"
-          >
-            <Mail className="h-4 w-4" />
-            Solicitar acesso por e-mail
-          </a>
+          <div className="mt-3 flex flex-wrap justify-center gap-2">
+            <button
+              onClick={() => setModoSolicitar(true)}
+              className="inline-flex items-center gap-2 rounded-lg bg-[#166184] px-4 py-2 text-sm font-bold text-white transition hover:brightness-115"
+            >
+              <Plus className="h-4 w-4" />
+              Solicitar acesso
+            </button>
+            <a
+              href={mailHref}
+              className="inline-flex items-center gap-2 rounded-lg border border-[#38bdf8]/40 bg-[#38bdf8]/10 px-4 py-2 text-sm font-semibold text-[#7dd3fc] transition hover:bg-[#38bdf8]/20"
+            >
+              <Mail className="h-4 w-4" />
+              Ou por e-mail
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -520,10 +647,185 @@ function PainelAuditoria() {
 }
 
 /* ------------------------------------------------------------------ */
+/* Painel de solicitações (admin)                                      */
+/* ------------------------------------------------------------------ */
+
+const STATUS_SOLICITACAO: Record<string, { label: string; cls: string }> = {
+  pendente: { label: "Pendente", cls: "bg-amber-500/15 text-amber-300 border-amber-500/40" },
+  aprovada: { label: "Aprovada", cls: "bg-emerald-500/15 text-emerald-300 border-emerald-500/40" },
+  dispensada: { label: "Dispensada", cls: "bg-slate-500/15 text-slate-300 border-slate-500/40" },
+};
+
+function PainelSolicitacoes() {
+  const utils = trpc.useUtils();
+  const { data, isLoading } = trpc.sim.admin.listarSolicitacoes.useQuery();
+  const [aprovandoId, setAprovandoId] = useState<number | null>(null);
+  const [senhaNova, setSenhaNova] = useState("");
+  const [expira, setExpira] = useState("");
+
+  const invalidar = () => {
+    utils.sim.admin.listarSolicitacoes.invalidate();
+    utils.sim.admin.listarUsuarios.invalidate();
+  };
+
+  const aprovar = trpc.sim.admin.aprovarSolicitacao.useMutation({
+    onSuccess: (_d, vars) => {
+      toast.success("Acesso criado! Informe a senha ao usuário.");
+      setAprovandoId(null);
+      setSenhaNova("");
+      setExpira("");
+      invalidar();
+    },
+    onError: e => toast.error(e.message),
+  });
+
+  const dispensar = trpc.sim.admin.dispensarSolicitacao.useMutation({
+    onSuccess: () => {
+      toast.success("Solicitação dispensada");
+      invalidar();
+    },
+    onError: e => toast.error(e.message),
+  });
+
+  const gerarSenha = () => {
+    const s = `JSF-${Math.random().toString(16).slice(2, 10)}`;
+    setSenhaNova(s);
+  };
+
+  return (
+    <div className="container py-8">
+      <div className="jsf-panel p-5 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="font-display text-lg font-bold text-white">Solicitações de acesso</h2>
+            <p className="text-xs text-muted-foreground">
+              {data ? `${data.pendentes} pendente(s) · ${data.solicitacoes.length} no total` : "Carregando..."}
+            </p>
+          </div>
+          <button
+            onClick={() => utils.sim.admin.listarSolicitacoes.invalidate()}
+            className="flex items-center gap-1.5 rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-xs font-semibold text-white/80 transition hover:bg-white/10"
+          >
+            <RefreshCw className="h-3.5 w-3.5" /> Atualizar
+          </button>
+        </div>
+
+        {isLoading ? (
+          <div className="flex items-center justify-center gap-2 py-10 text-muted-foreground">
+            <Loader2 className="h-5 w-5 animate-spin" /> Carregando solicitações...
+          </div>
+        ) : !data || data.solicitacoes.length === 0 ? (
+          <p className="py-10 text-center text-sm text-muted-foreground">
+            Nenhuma solicitação recebida ainda. Quando alguém pedir acesso na tela de login, aparecerá aqui e você receberá uma notificação.
+          </p>
+        ) : (
+          <div className="mt-4 space-y-3">
+            {data.solicitacoes.map(s => (
+              <div key={s.id} className="rounded-xl border border-white/10 bg-black/20 p-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-semibold text-white">{s.nome}</span>
+                      <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${STATUS_SOLICITACAO[s.status]?.cls ?? ""}`}>
+                        {STATUS_SOLICITACAO[s.status]?.label ?? s.status}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-sm text-[#7dd3fc]">{s.email}</p>
+                    {s.mensagem && (
+                      <p className="mt-1.5 rounded-lg bg-white/5 px-3 py-2 text-xs italic text-white/70">“{s.mensagem}”</p>
+                    )}
+                    <p className="mt-1.5 text-[11px] text-muted-foreground">Recebida em {fmtData(s.createdAt)}{s.ip ? ` · IP ${s.ip}` : ""}</p>
+                  </div>
+                  {s.status === "pendente" && (
+                    <div className="flex shrink-0 gap-2">
+                      <button
+                        onClick={() => {
+                          setAprovandoId(aprovandoId === s.id ? null : s.id);
+                          setSenhaNova("");
+                          setExpira("");
+                        }}
+                        className="rounded-lg bg-emerald-600/80 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-600"
+                      >
+                        Aprovar
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (confirm(`Dispensar a solicitação de ${s.email}?`)) dispensar.mutate({ id: s.id });
+                        }}
+                        disabled={dispensar.isPending}
+                        className="rounded-lg border border-white/15 bg-white/5 px-3 py-1.5 text-xs font-semibold text-white/80 transition hover:bg-white/10 disabled:opacity-60"
+                      >
+                        Dispensar
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {aprovandoId === s.id && (
+                  <form
+                    className="mt-3 flex flex-wrap items-end gap-3 rounded-lg border border-emerald-500/25 bg-emerald-500/5 p-3"
+                    onSubmit={e => {
+                      e.preventDefault();
+                      aprovar.mutate({
+                        id: s.id,
+                        password: senhaNova,
+                        expiraEm: expira ? new Date(`${expira}T23:59:59`) : null,
+                      });
+                    }}
+                  >
+                    <div className="min-w-[180px] flex-1">
+                      <label className="mb-1 block text-[11px] font-semibold text-white/75">Senha para o usuário</label>
+                      <div className="flex gap-1.5">
+                        <input
+                          required
+                          minLength={6}
+                          value={senhaNova}
+                          onChange={e => setSenhaNova(e.target.value)}
+                          placeholder="Mín. 6 caracteres"
+                          className="w-full rounded-lg border border-border bg-background/70 px-3 py-2 text-xs text-white outline-none focus:border-[#38bdf8]"
+                        />
+                        <button
+                          type="button"
+                          onClick={gerarSenha}
+                          title="Gerar senha"
+                          className="shrink-0 rounded-lg border border-white/15 bg-white/5 px-2.5 text-white/80 transition hover:bg-white/10"
+                        >
+                          <KeyRound className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                    <div>
+                      <label className="mb-1 block text-[11px] font-semibold text-white/75">Expira em (opcional)</label>
+                      <input
+                        type="date"
+                        value={expira}
+                        onChange={e => setExpira(e.target.value)}
+                        className="rounded-lg border border-border bg-background/70 px-3 py-2 text-xs text-white outline-none focus:border-[#38bdf8]"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={aprovar.isPending}
+                      className="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white transition hover:brightness-110 disabled:opacity-60"
+                    >
+                      {aprovar.isPending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Criar acesso"}
+                    </button>
+                  </form>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /* Página principal                                                    */
 /* ------------------------------------------------------------------ */
 
-type Aba = "simulador" | "usuarios" | "auditoria";
+type Aba = "simulador" | "usuarios" | "solicitacoes" | "auditoria";
 
 export default function Simulador() {
   const utils = trpc.useUtils();
@@ -537,14 +839,22 @@ export default function Simulador() {
     },
   });
 
+  const ehAdmin = sessao?.role === "admin";
+  const { data: solicitacoesData } = trpc.sim.admin.listarSolicitacoes.useQuery(undefined, {
+    enabled: ehAdmin,
+    refetchInterval: 60_000,
+  });
+  const pendentes = solicitacoesData?.pendentes ?? 0;
+
   const abas = useMemo(
     () =>
       [
-        { id: "simulador" as Aba, label: "Simulador", icon: MonitorPlay },
-        { id: "usuarios" as Aba, label: "Usuários", icon: Users },
-        { id: "auditoria" as Aba, label: "Auditoria", icon: ScrollText },
-      ] satisfies { id: Aba; label: string; icon: typeof Users }[],
-    []
+        { id: "simulador" as Aba, label: "Simulador", icon: MonitorPlay, badge: 0 },
+        { id: "usuarios" as Aba, label: "Usuários", icon: Users, badge: 0 },
+        { id: "solicitacoes" as Aba, label: "Solicitações", icon: Mail, badge: pendentes },
+        { id: "auditoria" as Aba, label: "Auditoria", icon: ScrollText, badge: 0 },
+      ] satisfies { id: Aba; label: string; icon: typeof Users; badge: number }[],
+    [pendentes]
   );
 
   return (
@@ -583,6 +893,11 @@ export default function Simulador() {
                     >
                       <t.icon className="h-3.5 w-3.5" />
                       {t.label}
+                      {t.badge > 0 && (
+                        <span className="ml-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-black">
+                          {t.badge}
+                        </span>
+                      )}
                     </button>
                   ))}
                 </nav>
@@ -612,6 +927,11 @@ export default function Simulador() {
               >
                 <t.icon className="h-3.5 w-3.5" />
                 {t.label}
+                {t.badge > 0 && (
+                  <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-amber-500 px-1 text-[10px] font-bold text-black">
+                    {t.badge}
+                  </span>
+                )}
               </button>
             ))}
           </div>
@@ -630,6 +950,8 @@ export default function Simulador() {
           <VisualizadorSimulador />
         ) : aba === "usuarios" ? (
           <PainelUsuarios />
+        ) : aba === "solicitacoes" ? (
+          <PainelSolicitacoes />
         ) : (
           <PainelAuditoria />
         )

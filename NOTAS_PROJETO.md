@@ -60,3 +60,12 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
 - Simulador HTML corrigido (icone.png -> /manus-storage/icone_app_cdd01151.png) e enviado: /manus-storage/simulador_0278dc9f.html.
 - PENDENTE: linkar seção "Acesso ao simulador" da Home (linha ~497-530) para /simulador (botão "Entrar no simulador"); testes vitest; screenshots; checkpoint; entrega com credenciais.
 - Erro dotenv no devserver.log é antigo (antes do pnpm install), servidor está rodando ok.
+
+## PROGRESSO (fase solicitações de acesso — em andamento)
+- Fase atual do plano: 2 (formulário + aba admin). Checkpoint anterior estável: acce4479 (publicado em jsfeletrico.com).
+- Schema: tabela simAccessRequests (nome, email, mensagem, status pendente/aprovada/dispensada, ip, createdAt) migrada ok.
+- simDb.ts: createAccessRequest, listAccessRequests (pendentes primeiro), getAccessRequestById, updateAccessRequestStatus, hasRecentRequestFromIp (anti-spam 10min), hasPendingRequestForEmail.
+- simRouter.ts: sim.solicitarAcesso (público, anti-spam, notifyOwner via server/_core/notification) + sim.admin.listarSolicitacoes {pendentes, solicitacoes}, aprovarSolicitacao {id, password, expiraEm?} (cria simUser), dispensarSolicitacao {id}. Eventos auditoria: solicitacao_acesso, admin_aprovar_solicitacao, admin_dispensar_solicitacao (labels já no EVENTO_LABEL do frontend).
+- Simulador.tsx: FormSolicitarAcesso adicionado à TelaLogin (botão "Solicitar acesso" + fallback e-mail). FEITO.
+- PENDENTE: aba "Solicitações" no painel admin (adicionar à lista `abas` tipo Aba="solicitacoes", componente PainelSolicitacoes com aprovar [prompt senha+data] / dispensar, badge de pendentes no botão da aba); testes curl do fluxo; vitest; screenshot; checkpoint; entrega.
+- Credencial admin: jsfeletrico@gmail.com / JSF-d9c967e2 (em /home/ubuntu/.jsf_admin_cred).

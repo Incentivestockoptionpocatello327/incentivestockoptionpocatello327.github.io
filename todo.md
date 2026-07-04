@@ -27,7 +27,15 @@
 - [x] Testar registro de auditoria
 - [x] Testes vitest (simAuth: senha + sessão JWT) — 9 testes passando
 - [x] pnpm check + build + screenshots
-- [ ] Checkpoint
+- [x] Checkpoint (acce4479)
 
 ## Fase 5 — Entrega
-- [ ] Entregar com credenciais do admin e instruções de publicação
+- [x] Entregar com credenciais do admin e instruções de publicação
+
+## Fase 6 — Solicitações de acesso com notificação
+- [x] Tabela simAccessRequests no schema (nome, email, mensagem, status, createdAt)
+- [x] Rota pública sim.solicitarAcesso (com proteção anti-spam simples) + notificação ao owner
+- [x] Rotas admin: listar solicitações, aprovar (cria usuário com senha) e dispensar
+- [x] Formulário "Solicitar acesso" na tela de login (nome + e-mail + mensagem)
+- [x] Aba "Solicitações" no painel admin com badge de pendentes, aprovar/dispensar
+- [x] Testes do fluxo completo + vitest + checkpoint

@@ -63,3 +63,21 @@ export const simAuditLog = mysqlTable("simAuditLog", {
 
 export type SimAuditEntry = typeof simAuditLog.$inferSelect;
 export type InsertSimAuditEntry = typeof simAuditLog.$inferInsert;
+
+/**
+ * Solicitações de acesso ao simulador enviadas pelo formulário público.
+ * O admin aprova (cria o usuário) ou dispensa cada solicitação.
+ */
+export const simAccessRequests = mysqlTable("simAccessRequests", {
+  id: int("id").autoincrement().primaryKey(),
+  nome: varchar("nome", { length: 160 }).notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  mensagem: text("mensagem"),
+  status: mysqlEnum("status", ["pendente", "aprovada", "dispensada"]).default("pendente").notNull(),
+  ip: varchar("ip", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SimAccessRequest = typeof simAccessRequests.$inferSelect;
+export type InsertSimAccessRequest = typeof simAccessRequests.$inferInsert;

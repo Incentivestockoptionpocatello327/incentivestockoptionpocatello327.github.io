@@ -25,7 +25,14 @@ import {
   touchSimUserLogin,
   logAudit,
   listAudit,
+  createAccessRequest,
+  listAccessRequests,
+  getAccessRequestById,
+  updateAccessRequestStatus,
+  hasRecentRequestFromIp,
+  hasPendingRequestForEmail,
 } from "./simDb";
+import { notifyOwner } from "./_core/notification";
 
 async function requireSession(req: any): Promise<SimSession> {
   const session = await getSessionFromRequest(req);
@@ -56,6 +63,52 @@ export const simRouter = router({
     if (!user || user.ativo !== 1) return null;
     return { id: user.id, email: user.email, nome: user.nome, role: user.role };
   }),
+
+  /** Solicitação pública de acesso: registra o pedido e notifica o administrador */
+  solicitarAcesso: publicProcedure
+    .input(
+      z.object({
+        nome: z.string().trim().min(2, "Informe seu nome").max(160),
+        email: z.string().email("E-mail inválido"),
+        mensagem: z.string().trim().max(500).optional(),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const { ip, userAgent } = getClientInfo(ctx.req);
+      const email = input.email.toLowerCase().trim();
+
+      // Anti-spam: 1 pedido por IP a cada 10 min e sem duplicar pendentes do mesmo e-mail
+      if (await hasRecentRequestFromIp(ip ?? "", 10)) {
+        throw new TRPCError({
+          code: "TOO_MANY_REQUESTS",
+          message: "Você já enviou uma solicitação há pouco. Aguarde alguns minutos.",
+        });
+      }
+      const jaExiste = await getSimUserByEmail(email);
+      if (jaExiste) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Este e-mail já possui acesso. Tente fazer login ou contate o administrador.",
+        });
+      }
+      if (await hasPendingRequestForEmail(email)) {
+        throw new TRPCError({
+          code: "CONFLICT",
+          message: "Já existe uma solicitação pendente para este e-mail. Aguarde o administrador.",
+        });
+      }
+
+      await createAccessRequest({ nome: input.nome.trim(), email, mensagem: input.mensagem?.trim() || null, ip });
+      await logAudit({ email, evento: "solicitacao_acesso", detalhe: `Nome: ${input.nome.trim()}`, ip, userAgent });
+
+      // Notifica o dono do projeto (não bloqueia em caso de falha)
+      notifyOwner({
+        title: "Nova solicitação de acesso ao simulador",
+        content: `${input.nome.trim()} (${email}) solicitou acesso ao simulador JSF Elétrico.${input.mensagem ? ` Mensagem: "${input.mensagem.trim()}"` : ""} Acesse jsfeletrico.com/simulador → aba Solicitações para aprovar ou dispensar.`,
+      }).catch(() => {});
+
+      return { success: true } as const;
+    }),
 
   login: publicProcedure
     .input(z.object({ email: z.string().email("E-mail inválido"), password: z.string().min(1, "Informe a senha") }))
@@ -238,6 +291,75 @@ export const simRouter = router({
           detalhe: input.expiraEm
             ? `Definiu expiração de ${target.email} para ${input.expiraEm.toLocaleDateString("pt-BR")}`
             : `Removeu a expiração de ${target.email}`,
+          ip,
+          userAgent,
+        });
+        return { success: true } as const;
+      }),
+
+    listarSolicitacoes: publicProcedure.query(async ({ ctx }) => {
+      await requireAdmin(ctx.req);
+      const reqs = await listAccessRequests();
+      return {
+        pendentes: reqs.filter(r => r.status === "pendente").length,
+        solicitacoes: reqs,
+      };
+    }),
+
+    aprovarSolicitacao: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres"),
+          expiraEm: z.date().nullable().optional(),
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        const admin = await requireAdmin(ctx.req);
+        const solicitacao = await getAccessRequestById(input.id);
+        if (!solicitacao) throw new TRPCError({ code: "NOT_FOUND", message: "Solicitação não encontrada" });
+        if (solicitacao.status !== "pendente") {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "Esta solicitação já foi tratada" });
+        }
+        const existente = await getSimUserByEmail(solicitacao.email);
+        if (existente) {
+          await updateAccessRequestStatus(input.id, "aprovada");
+          throw new TRPCError({ code: "CONFLICT", message: "Este e-mail já possui acesso" });
+        }
+        await createSimUser({
+          email: solicitacao.email,
+          nome: solicitacao.nome,
+          passwordHash: hashPassword(input.password),
+          ativo: 1,
+          role: "user",
+          expiraEm: input.expiraEm ?? null,
+        });
+        await updateAccessRequestStatus(input.id, "aprovada");
+        const { ip, userAgent } = getClientInfo(ctx.req);
+        await logAudit({
+          userId: admin.uid,
+          email: admin.email,
+          evento: "admin_aprovar_solicitacao",
+          detalhe: `Aprovou a solicitação de ${solicitacao.email}`,
+          ip,
+          userAgent,
+        });
+        return { success: true, email: solicitacao.email } as const;
+      }),
+
+    dispensarSolicitacao: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ ctx, input }) => {
+        const admin = await requireAdmin(ctx.req);
+        const solicitacao = await getAccessRequestById(input.id);
+        if (!solicitacao) throw new TRPCError({ code: "NOT_FOUND", message: "Solicitação não encontrada" });
+        await updateAccessRequestStatus(input.id, "dispensada");
+        const { ip, userAgent } = getClientInfo(ctx.req);
+        await logAudit({
+          userId: admin.uid,
+          email: admin.email,
+          evento: "admin_dispensar_solicitacao",
+          detalhe: `Dispensou a solicitação de ${solicitacao.email}`,
           ip,
           userAgent,
         });
