@@ -51,3 +51,7 @@
 - [x] Meta description reescrita com 154 caracteres (entre 50 e 160)
 - [x] Texto alternativo adicionado à imagem do rodapé (única sem alt)
 - [x] Build validado e checkpoint salvo
+
+## Fase 9 — Dados estruturados (SEO)
+- [x] JSON-LD schema.org MobileApplication na página inicial (nome, Android, categoria educacional, Play Store, grátis, autor)
+- [x] JSON validado, build ok e verificado na página servida
