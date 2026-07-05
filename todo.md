@@ -121,3 +121,7 @@
 ## Fase 22 — Citação na seção "Conheça o desenvolvedor"
 - [x] Adicionar citação "Criei o app que eu queria ter quando comecei" — Joelson, na seção da home
 - [x] Verificar visual/build, checkpoint e entrega
+
+## Fase 23 — Botão "Acesse o simulador online" no hero
+- [x] Adicionar botão para /simulador ao lado do "Baixar grátis na Play Store" no início da home
+- [x] Verificar visual/build, checkpoint e entrega

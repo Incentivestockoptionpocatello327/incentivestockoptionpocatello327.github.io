@@ -384,6 +384,13 @@ export default function Home() {
                   Baixar grátis na Play Store
                 </a>
                 <a
+                  href="/simulador"
+                  className="inline-flex items-center gap-2 rounded-xl border border-[#38bdf8]/60 bg-[#38bdf8]/15 px-6 py-3.5 text-base font-bold text-[#7dd3fc] shadow-lg backdrop-blur transition hover:bg-[#38bdf8]/25"
+                >
+                  <Zap className="h-5 w-5" />
+                  Acesse o simulador online
+                </a>
+                <a
                   href="#galeria"
                   className="inline-flex items-center gap-1.5 rounded-xl border border-white/25 bg-white/5 px-6 py-3.5 text-base font-semibold text-white backdrop-blur transition hover:bg-white/10"
                 >
