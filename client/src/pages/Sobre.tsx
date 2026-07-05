@@ -18,7 +18,6 @@ import {
 import {
   ICONE_APP,
   BANNER_PRINCIPAL,
-  PRINT_DIAGRAMA_COMPLETO,
   PRINT_BIBLIOTECA,
   PLAY_STORE_URL,
   EMAIL_SUPORTE,
@@ -186,14 +185,15 @@ export default function Sobre() {
                 </p>
               </div>
             </motion.div>
-            <motion.div {...fadeUp} className="jsf-panel overflow-hidden p-3">
+            <motion.div {...fadeUp} className="jsf-panel mx-auto w-full max-w-md overflow-hidden p-3">
               <img
-                src={PRINT_DIAGRAMA_COMPLETO}
-                alt="Diagrama de comandos elétricos em simulação no app JSF Elétrico"
+                src="/manus-storage/foto_joelson_retrato_alinhado_8892e133.png"
+                alt="Joelson da Silva Francisco com capacete e equipamentos de segurança durante treinamento de eletricista"
                 className="w-full rounded-lg"
               />
               <p className="px-2 py-3 text-center text-xs text-muted-foreground">
-                O simulador em ação: diagrama de comando montado e energizado no celular
+                Joelson em treinamento prático: capacete, óculos e cinto de segurança —
+                a vivência de campo que inspirou o simulador
               </p>
             </motion.div>
           </div>

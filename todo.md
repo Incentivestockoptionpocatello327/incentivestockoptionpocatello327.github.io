@@ -78,3 +78,8 @@
 - [x] Gerar favicon.ico (16/32/48) e PNGs 48/96/192 + apple-touch-icon 180 a partir do icone_capacete.png
 - [x] Tags de favicon completas no index.html (substituindo o link único do storage)
 - [x] Build ok e todos os arquivos respondendo HTTP 200
+
+## Fase 14 — Retrato alinhado na página Sobre
+- [x] Editar retrato: alinhar capacete, óculos e pescoço, enquadramento centrado
+- [x] Adicionar a foto na página Sobre (seção "Quem é Joelson")
+- [x] Verificar visual, build e checkpoint

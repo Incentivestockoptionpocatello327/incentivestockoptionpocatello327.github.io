@@ -69,3 +69,11 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
 - Simulador.tsx: FormSolicitarAcesso adicionado à TelaLogin (botão "Solicitar acesso" + fallback e-mail). FEITO.
 - PENDENTE: aba "Solicitações" no painel admin (adicionar à lista `abas` tipo Aba="solicitacoes", componente PainelSolicitacoes com aprovar [prompt senha+data] / dispensar, badge de pendentes no botão da aba); testes curl do fluxo; vitest; screenshot; checkpoint; entrega.
 - Credencial admin: jsfeletrico@gmail.com / JSF-d9c967e2 (em /home/ubuntu/.jsf_admin_cred).
+
+## Fase 14 — Retrato de Joelson na página Sobre (jul/2026)
+- Usuário enviou 2 fotos suas (treinamento SENAI): retrato e corpo inteiro; ambas melhoradas (HD).
+- Retrato alinhado (capacete/óculos/pescoço retos, enquadramento da cintura pra cima):
+  /home/ubuntu/webdev-static-assets/foto_joelson_retrato_alinhado.png
+- Storage path no site: /manus-storage/foto_joelson_retrato_alinhado_8892e133.png
+- Sobre.tsx: seção "Quem é Joelson" agora mostra a foto (substituiu PRINT_DIAGRAMA_COMPLETO; import removido); legenda sobre treinamento prático.
+- pnpm check + build ok. Falta: screenshot /sobre, checkpoint, entrega.
