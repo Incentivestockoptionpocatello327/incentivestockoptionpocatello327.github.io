@@ -4,9 +4,15 @@
  * oficiais da Play Store, tom para hobbyistas/aprendizes, acesso gerenciado pelo
  * administrador. Contatos: jsfeletrico@gmail.com.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSeo } from "@/hooks/useSeo";
 import { motion } from "framer-motion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import {
   Play,
   Zap,
@@ -25,6 +31,7 @@ import {
   Lock,
   User,
   ArrowRight,
+  HelpCircle,
 } from "lucide-react";
 import {
   ICONE_APP,
@@ -180,6 +187,49 @@ const mailHref = `mailto:${EMAIL_SUPORTE}?subject=${encodeURIComponent(
 
 /* ---------------- animações ---------------- */
 
+const FAQ = [
+  {
+    pergunta: "O JSF Elétrico é gratuito?",
+    resposta:
+      "Sim. O aplicativo está disponível gratuitamente na Play Store para Android. Você baixa, instala e já começa a montar seus primeiros comandos elétricos sem pagar nada.",
+  },
+  {
+    pergunta: "Preciso de internet para usar o aplicativo?",
+    resposta:
+      "Não. O simulador funciona 100% offline: você monta, simula e salva seus projetos direto no aparelho, sem depender de conexão. A internet só é necessária para baixar o app ou usar o simulador online aqui do site.",
+  },
+  {
+    pergunta: "Quais componentes estão disponíveis no simulador?",
+    resposta:
+      "A biblioteca inclui contatores, relés térmicos, temporizadores, botoeiras, sinaleiros, disjuntores, motores trifásicos, soft-starters e inversores de frequência — tudo com comportamento e sons realistas, incluindo simulação de falhas como curto-circuito, falta de fase e sobrecarga.",
+  },
+  {
+    pergunta: "Como funciona o acesso ao simulador online do site?",
+    resposta:
+      "O simulador online é liberado pelo administrador. Você solicita o acesso pelo formulário da página do simulador ou pelo e-mail jsfeletrico@gmail.com, e recebe um e-mail e senha para entrar. Já o aplicativo da Play Store não precisa de cadastro.",
+  },
+  {
+    pergunta: "O simulador serve para estudar para provas e cursos técnicos?",
+    resposta:
+      "Sim. Ele foi criado justamente para quem está aprendendo comandos elétricos: estudantes de cursos técnicos, eletricistas em formação e curiosos. Você pratica partidas de motores (direta, estrela-triângulo, com reversão e mais) sem risco de choque e sem custo de componentes.",
+  },
+  {
+    pergunta: "Posso salvar e imprimir meus diagramas?",
+    resposta:
+      "Pode. Os projetos ficam salvos no aparelho e podem ser exportados em JSON ou PNG de alta resolução. Também é possível imprimir com cabeçalho personalizado, incluindo nome do projeto, data e o seu nome.",
+  },
+  {
+    pergunta: "O aplicativo coleta meus dados?",
+    resposta:
+      "Não. Conforme declarado na Play Store, nenhum dado é coletado e nada é compartilhado com terceiros. Sua privacidade é total.",
+  },
+  {
+    pergunta: "O JSF Elétrico está disponível para iPhone (iOS)?",
+    resposta:
+      "Por enquanto o aplicativo está disponível apenas para Android, na Play Store. No iPhone, você pode usar o simulador online aqui do site solicitando acesso ao administrador.",
+  },
+];
+
 const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -227,7 +277,29 @@ function Divisor({ className = "" }: { className?: string }) {
 
 /* ---------------- página ---------------- */
 
+function useFaqJsonLd() {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "faq-jsonld";
+    script.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: FAQ.map(f => ({
+        "@type": "Question",
+        name: f.pergunta,
+        acceptedAnswer: { "@type": "Answer", text: f.resposta },
+      })),
+    });
+    document.head.appendChild(script);
+    return () => {
+      document.getElementById("faq-jsonld")?.remove();
+    };
+  }, []);
+}
+
 export default function Home() {
+  useFaqJsonLd();
   useSeo({
     title: "JSF Elétrico — Simulador de Comandos Elétricos",
     description:
@@ -256,6 +328,7 @@ export default function Home() {
             <a href="#recursos" className="transition hover:text-white">Recursos</a>
             <a href="#galeria" className="transition hover:text-white">Simulador</a>
             <a href="#simbologia" className="transition hover:text-white">Simbologia</a>
+            <a href="#faq" className="transition hover:text-white">FAQ</a>
             <a href="/sobre" className="transition hover:text-white">Sobre</a>
             <a href="#contato" className="transition hover:text-white">Contato</a>
             <a href="/simulador" className="flex items-center gap-1.5 rounded-lg border border-[#38bdf8]/50 bg-[#38bdf8]/10 px-3 py-1.5 font-semibold text-[#7dd3fc] transition hover:bg-[#38bdf8]/20">
@@ -594,6 +667,44 @@ export default function Home() {
               </div>
             </motion.div>
           </div>
+        </section>
+
+        {/* ===== FAQ ===== */}
+        <section id="faq" className="container py-16">
+          <motion.div {...fadeUp} className="mx-auto max-w-2xl text-center">
+            <p className="font-display inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-[#38bdf8]">
+              <HelpCircle className="h-4 w-4" />
+              Perguntas frequentes
+            </p>
+            <h2 className="font-display mt-2 text-3xl font-bold text-white sm:text-4xl">
+              Dúvidas comuns sobre o simulador
+            </h2>
+            <p className="mt-3 text-muted-foreground">
+              Não achou a resposta que procurava? Escreva para{" "}
+              <a href={mailHref} className="text-[#7dd3fc] underline-offset-4 hover:underline">
+                {EMAIL_SUPORTE}
+              </a>
+              .
+            </p>
+          </motion.div>
+          <motion.div {...fadeUp} className="mx-auto mt-10 max-w-3xl">
+            <Accordion type="single" collapsible className="space-y-3">
+              {FAQ.map((f, i) => (
+                <AccordionItem
+                  key={i}
+                  value={`faq-${i}`}
+                  className="jsf-panel border-b-0 px-5"
+                >
+                  <AccordionTrigger className="py-4 text-left font-display text-base font-semibold text-white hover:no-underline">
+                    {f.pergunta}
+                  </AccordionTrigger>
+                  <AccordionContent className="pb-5 text-sm leading-relaxed text-muted-foreground">
+                    {f.resposta}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </motion.div>
         </section>
 
         {/* ===== CTA final / Contato ===== */}

@@ -94,3 +94,7 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
   marca (seção ~linha 364-372) e "Como funciona" (~375), com retrato
   /manus-storage/foto_joelson_retrato_alinhado_8892e133.png + botão para /sobre.
 - Home.tsx usa fadeUp, jsf-panel, container; ícones lucide; motion do framer-motion.
+- F20 CONCLUÍDA (checkpoint aeb3f560): seção "Conheça o desenvolvedor" na home entre banner e Como funciona
+  (card clicável p/ /sobre com retrato circular + botão "Ver a história").
+- F21 CONCLUÍDA: seção FAQ na home (id="faq", accordion shadcn, 8 perguntas no array FAQ ~linha 190 Home.tsx),
+  link "FAQ" no nav, JSON-LD FAQPage via hook useFaqJsonLd. Entre "Acesso ao simulador" e CTA final.

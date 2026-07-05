@@ -112,3 +112,8 @@
 - [x] Adicionar link "Sobre" no menu do header da home (desktop) — já existia no nav e rodapé
 - [x] Criar seção "Conheça o desenvolvedor" no início da home (foto + convite + botão para /sobre)
 - [x] Verificar visual/build, checkpoint e entrega
+
+## Fase 21 — Seção FAQ na página inicial
+- [x] Criar seção FAQ (accordion) na home com dúvidas comuns e link no menu
+- [x] Adicionar marcação schema.org FAQPage (JSON-LD)
+- [x] Verificar visual/build, checkpoint e entrega
