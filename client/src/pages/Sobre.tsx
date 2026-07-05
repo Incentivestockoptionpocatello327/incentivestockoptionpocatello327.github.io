@@ -212,27 +212,54 @@ export default function Sobre() {
               </p>
             </motion.div>
 
-            <div className="mx-auto mt-10 grid max-w-5xl gap-5 md:grid-cols-2">
-              {MARCOS.map((m, i) => (
-                <motion.div
-                  key={m.titulo}
-                  {...fadeUp}
-                  transition={{ ...fadeUp.transition, delay: i * 0.05 }}
-                  className="jsf-panel flex gap-4 p-5"
-                >
-                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#38bdf8]/40 bg-[#38bdf8]/10">
-                    <m.icon className="h-5 w-5 text-[#7dd3fc]" />
-                  </div>
-                  <div>
-                    <h3 className="font-display text-base font-bold text-white">
-                      {m.titulo}
-                    </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/75">
-                      {m.texto}
-                    </p>
-                  </div>
+            <div className="mx-auto mt-10 grid max-w-6xl items-start gap-8 lg:grid-cols-[0.62fr_1.38fr]">
+              <div className="mx-auto flex w-full max-w-sm flex-col gap-5 lg:sticky lg:top-24">
+                <motion.div {...fadeUp} className="jsf-panel overflow-hidden p-3">
+                  <img
+                    src="/manus-storage/foto_joelson_corpo_inteiro_hd_dc04191f.png"
+                    alt="Joelson da Silva Francisco de corpo inteiro, com capacete, óculos, luvas e cinto de segurança completo durante treinamento prático de eletricista"
+                    className="w-full rounded-lg"
+                  />
+                  <p className="px-2 py-3 text-center text-xs text-muted-foreground">
+                    Joelson com o equipamento completo de segurança em treinamento
+                    prático — a base real por trás de cada detalhe do simulador
+                  </p>
                 </motion.div>
-              ))}
+                <motion.div {...fadeUp} className="jsf-panel overflow-hidden p-3">
+                  <img
+                    src="/manus-storage/foto_joelson_sala_controle_moderna_28249a39.png"
+                    alt="Joelson da Silva Francisco em uma sala de controle moderna com múltiplos monitores exibindo telas de supervisão elétrica"
+                    className="w-full rounded-lg"
+                  />
+                  <p className="px-2 py-3 text-center text-xs text-muted-foreground">
+                    Joelson na sala de controle: a supervisão de sistemas elétricos
+                    no dia a dia da operação industrial
+                  </p>
+                </motion.div>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-2">
+                {MARCOS.map((m, i) => (
+                  <motion.div
+                    key={m.titulo}
+                    {...fadeUp}
+                    transition={{ ...fadeUp.transition, delay: i * 0.05 }}
+                    className="jsf-panel flex gap-4 p-5"
+                  >
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-[#38bdf8]/40 bg-[#38bdf8]/10">
+                      <m.icon className="h-5 w-5 text-[#7dd3fc]" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-base font-bold text-white">
+                        {m.titulo}
+                      </h3>
+                      <p className="mt-1.5 text-sm leading-relaxed text-white/75">
+                        {m.texto}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

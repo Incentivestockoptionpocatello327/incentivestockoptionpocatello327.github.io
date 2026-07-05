@@ -83,3 +83,13 @@
 - [x] Editar retrato: alinhar capacete, óculos e pescoço, enquadramento centrado
 - [x] Adicionar a foto na página Sobre (seção "Quem é Joelson")
 - [x] Verificar visual, build e checkpoint
+
+## Fase 15 — Foto de corpo inteiro na trajetória
+- [x] Enviar foto de corpo inteiro HD ao storage
+- [x] Inserir a foto na seção "A trajetória do JSF Elétrico" da página Sobre
+- [x] Verificar visual, build e checkpoint
+
+## Fase 16 — Foto da sala de controle na trajetória
+- [x] Editar foto: remover marcas/logos, melhorar qualidade, cenário moderno de sala de controle mantendo Joelson
+- [x] Enviar imagem final ao storage e inserir na seção "A trajetória do JSF Elétrico"
+- [x] Verificar visual, build, checkpoint e entrega
