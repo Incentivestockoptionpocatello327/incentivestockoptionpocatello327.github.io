@@ -93,3 +93,8 @@
 - [x] Editar foto: remover marcas/logos, melhorar qualidade, cenário moderno de sala de controle mantendo Joelson
 - [x] Enviar imagem final ao storage e inserir na seção "A trajetória do JSF Elétrico"
 - [x] Verificar visual, build, checkpoint e entrega
+
+## Fase 17 — Refazer foto da sala de controle (manter ambiente real)
+- [x] Reeditar a foto original: manter sala/mesa/computadores reais, só limpar sujeira, remover logos/marcas e melhorar qualidade
+- [x] Substituir a imagem no storage/página e verificar visual e build
+- [x] Checkpoint e entrega

@@ -227,7 +227,7 @@ export default function Sobre() {
                 </motion.div>
                 <motion.div {...fadeUp} className="jsf-panel overflow-hidden p-3">
                   <img
-                    src="/manus-storage/foto_joelson_sala_controle_moderna_28249a39.png"
+                    src="/manus-storage/foto_joelson_sala_controle_real_5935c9ec.png"
                     alt="Joelson da Silva Francisco em uma sala de controle moderna com múltiplos monitores exibindo telas de supervisão elétrica"
                     className="w-full rounded-lg"
                   />
