@@ -73,3 +73,8 @@
 - [x] sitemap.xml em client/public com as 3 páginas (/, /sobre, /simulador)
 - [x] robots.txt com Allow /, Disallow /api/ e link do sitemap
 - [x] XML validado, HTTP 200 no dev server e arquivos presentes no build
+
+## Fase 13 — Favicon do eletricista de capacete
+- [x] Gerar favicon.ico (16/32/48) e PNGs 48/96/192 + apple-touch-icon 180 a partir do icone_capacete.png
+- [x] Tags de favicon completas no index.html (substituindo o link único do storage)
+- [x] Build ok e todos os arquivos respondendo HTTP 200
