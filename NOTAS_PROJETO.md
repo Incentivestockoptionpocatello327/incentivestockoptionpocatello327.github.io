@@ -76,4 +76,21 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
   /home/ubuntu/webdev-static-assets/foto_joelson_retrato_alinhado.png
 - Storage path no site: /manus-storage/foto_joelson_retrato_alinhado_8892e133.png
 - Sobre.tsx: seção "Quem é Joelson" agora mostra a foto (substituiu PRINT_DIAGRAMA_COMPLETO; import removido); legenda sobre treinamento prático.
-- pnpm check + build ok. Falta: screenshot /sobre, checkpoint, entrega.
+- pnpm check + build ok. Falta: screenshot /sobre, checkpoint, entrega. [CONCLUÍDO: checkpoint b25a4535]
+
+## Fases 15–20 (jul/2026) — fotos e destaque da página Sobre
+- F15: foto corpo inteiro HD adicionada à trajetória (depois removida na F19 a pedido do usuário).
+- F16/F17: foto sala de controle — 1ª versão fictícia rejeitada; versão final REAL retocada
+  (só limpeza de sujeira, remoção de logos, qualidade, rosto endireitado):
+  storage /manus-storage/foto_joelson_sala_controle_real_5935c9ec.png
+  (local: /home/ubuntu/webdev-static-assets/foto_joelson_sala_controle_real.png).
+- F18: componente client/src/components/Lightbox.tsx (LightboxImage: hover "Ampliar", modal tela cheia,
+  fecha X/ESC/clique fora, keyframes lightbox-fade/zoom no index.css). Aplicado em Sobre.tsx:
+  retrato, sala de controle e PRINT_BIBLIOTECA.
+- F19: trajetória agora tem só a foto da sala de controle (coluna esquerda sticky).
+- Checkpoints: b25a4535 (F14 retrato), a7f4bc51 (F15+16), 6cb20d13 (F17 real), d41a302b (F18+19). Publicado.
+- F20 (em andamento): destacar Sobre na home. Link "Sobre" JÁ EXISTE no nav do header (linha ~257 Home.tsx)
+  e no rodapé (~611). FALTA: seção "Conheça o desenvolvedor" no início da home — inserir entre o banner de
+  marca (seção ~linha 364-372) e "Como funciona" (~375), com retrato
+  /manus-storage/foto_joelson_retrato_alinhado_8892e133.png + botão para /sobre.
+- Home.tsx usa fadeUp, jsf-panel, container; ícones lucide; motion do framer-motion.

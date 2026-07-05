@@ -107,3 +107,8 @@
 ## Fase 19 — Remover foto de corpo inteiro da trajetória
 - [x] Retirar a foto de corpo inteiro da seção "A trajetória do JSF Elétrico" (manter só a da sala de controle)
 - [x] Verificar visual/build, checkpoint e entrega
+
+## Fase 20 — Destacar a página Sobre na home
+- [x] Adicionar link "Sobre" no menu do header da home (desktop) — já existia no nav e rodapé
+- [x] Criar seção "Conheça o desenvolvedor" no início da home (foto + convite + botão para /sobre)
+- [x] Verificar visual/build, checkpoint e entrega

@@ -23,6 +23,8 @@ import {
   Smartphone,
   BookOpen,
   Lock,
+  User,
+  ArrowRight,
 } from "lucide-react";
 import {
   ICONE_APP,
@@ -369,6 +371,45 @@ export default function Home() {
             className="w-full rounded-2xl border border-[#166184]/60 shadow-2xl"
             loading="lazy"
           />
+        </section>
+
+        {/* ===== Conheça o desenvolvedor ===== */}
+        <section className="container py-12">
+          <motion.a
+            {...fadeUp}
+            href="/sobre"
+            className="jsf-panel group relative block overflow-hidden transition duration-200 hover:border-[#38bdf8]/60 hover:shadow-[0_0_24px_rgba(56,189,248,0.18)]"
+          >
+            <div className="grid items-center gap-6 p-6 sm:p-8 md:grid-cols-[auto_1fr_auto]">
+              <div className="mx-auto h-28 w-28 shrink-0 overflow-hidden rounded-full border-2 border-[#38bdf8]/50 shadow-[0_0_18px_rgba(56,189,248,0.25)] sm:h-32 sm:w-32">
+                <img
+                  src="/manus-storage/foto_joelson_retrato_alinhado_8892e133.png"
+                  alt="Joelson da Silva Francisco, criador do JSF Elétrico, com capacete e equipamentos de segurança"
+                  className="h-full w-full object-cover object-top"
+                  loading="lazy"
+                />
+              </div>
+              <div className="text-center md:text-left">
+                <p className="font-display inline-flex items-center gap-2 text-sm font-semibold uppercase tracking-widest text-[#38bdf8]">
+                  <User className="h-4 w-4" />
+                  Conheça o desenvolvedor
+                </p>
+                <h2 className="font-display mt-2 text-2xl font-bold text-white sm:text-3xl">
+                  Quem criou o JSF Elétrico?
+                </h2>
+                <p className="mx-auto mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground sm:text-base md:mx-0">
+                  Por trás do simulador existe uma história real: Joelson da Silva
+                  Francisco, formado em eletrotécnica e apaixonado por manutenção
+                  elétrica, transformou a vivência de campo em uma ferramenta de
+                  aprendizado. Descubra a trajetória que deu origem ao app.
+                </p>
+              </div>
+              <span className="mx-auto inline-flex items-center gap-2 rounded-xl border border-[#38bdf8]/50 bg-[#38bdf8]/10 px-5 py-3 text-sm font-bold text-[#7dd3fc] transition group-hover:bg-[#38bdf8]/20 md:mx-0">
+                Ver a história
+                <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              </span>
+            </div>
+          </motion.a>
         </section>
 
         {/* ===== Como funciona ===== */}
