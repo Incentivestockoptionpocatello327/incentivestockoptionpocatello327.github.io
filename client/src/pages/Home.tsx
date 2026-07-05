@@ -476,6 +476,14 @@ export default function Home() {
                   elétrica, transformou a vivência de campo em uma ferramenta de
                   aprendizado. Descubra a trajetória que deu origem ao app.
                 </p>
+                <blockquote className="mx-auto mt-4 max-w-2xl border-l-2 border-[#38bdf8] pl-4 text-left md:mx-0">
+                  <p className="font-display text-base font-semibold italic text-[#7dd3fc] sm:text-lg">
+                    “Criei o app que eu queria ter quando comecei.”
+                  </p>
+                  <footer className="mt-1 text-xs text-muted-foreground">
+                    — Joelson da Silva Francisco, criador do JSF Elétrico
+                  </footer>
+                </blockquote>
               </div>
               <span className="mx-auto inline-flex items-center gap-2 rounded-xl border border-[#38bdf8]/50 bg-[#38bdf8]/10 px-5 py-3 text-sm font-bold text-[#7dd3fc] transition group-hover:bg-[#38bdf8]/20 md:mx-0">
                 Ver a história

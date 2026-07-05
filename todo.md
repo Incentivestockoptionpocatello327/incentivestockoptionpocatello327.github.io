@@ -117,3 +117,7 @@
 - [x] Criar seção FAQ (accordion) na home com dúvidas comuns e link no menu
 - [x] Adicionar marcação schema.org FAQPage (JSON-LD)
 - [x] Verificar visual/build, checkpoint e entrega
+
+## Fase 22 — Citação na seção "Conheça o desenvolvedor"
+- [x] Adicionar citação "Criei o app que eu queria ter quando comecei" — Joelson, na seção da home
+- [x] Verificar visual/build, checkpoint e entrega
