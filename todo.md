@@ -98,3 +98,12 @@
 - [x] Reeditar a foto original: manter sala/mesa/computadores reais, só limpar sujeira, remover logos/marcas e melhorar qualidade
 - [x] Substituir a imagem no storage/página e verificar visual e build
 - [x] Checkpoint e entrega
+
+## Fase 18 — Lightbox nas fotos da página Sobre
+- [x] Criar componente Lightbox (clique para ampliar, fechar com X/ESC/clique fora, zoom suave)
+- [x] Aplicar nas fotos da página Sobre (retrato, sala de controle, biblioteca)
+- [x] Verificar visual/build, checkpoint e entrega
+
+## Fase 19 — Remover foto de corpo inteiro da trajetória
+- [x] Retirar a foto de corpo inteiro da seção "A trajetória do JSF Elétrico" (manter só a da sala de controle)
+- [x] Verificar visual/build, checkpoint e entrega

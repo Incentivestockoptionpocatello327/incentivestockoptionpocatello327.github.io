@@ -4,6 +4,7 @@
  */
 import { motion } from "framer-motion";
 import { useSeo } from "@/hooks/useSeo";
+import { LightboxImage } from "@/components/Lightbox";
 import {
   ArrowLeft,
   GraduationCap,
@@ -186,10 +187,10 @@ export default function Sobre() {
               </div>
             </motion.div>
             <motion.div {...fadeUp} className="jsf-panel mx-auto w-full max-w-md overflow-hidden p-3">
-              <img
+              <LightboxImage
                 src="/manus-storage/foto_joelson_retrato_alinhado_8892e133.png"
                 alt="Joelson da Silva Francisco com capacete e equipamentos de segurança durante treinamento de eletricista"
-                className="w-full rounded-lg"
+                caption="Joelson em treinamento prático: capacete, óculos e cinto de segurança — a vivência de campo que inspirou o simulador"
               />
               <p className="px-2 py-3 text-center text-xs text-muted-foreground">
                 Joelson em treinamento prático: capacete, óculos e cinto de segurança —
@@ -215,21 +216,10 @@ export default function Sobre() {
             <div className="mx-auto mt-10 grid max-w-6xl items-start gap-8 lg:grid-cols-[0.62fr_1.38fr]">
               <div className="mx-auto flex w-full max-w-sm flex-col gap-5 lg:sticky lg:top-24">
                 <motion.div {...fadeUp} className="jsf-panel overflow-hidden p-3">
-                  <img
-                    src="/manus-storage/foto_joelson_corpo_inteiro_hd_dc04191f.png"
-                    alt="Joelson da Silva Francisco de corpo inteiro, com capacete, óculos, luvas e cinto de segurança completo durante treinamento prático de eletricista"
-                    className="w-full rounded-lg"
-                  />
-                  <p className="px-2 py-3 text-center text-xs text-muted-foreground">
-                    Joelson com o equipamento completo de segurança em treinamento
-                    prático — a base real por trás de cada detalhe do simulador
-                  </p>
-                </motion.div>
-                <motion.div {...fadeUp} className="jsf-panel overflow-hidden p-3">
-                  <img
+                  <LightboxImage
                     src="/manus-storage/foto_joelson_sala_controle_real_5935c9ec.png"
-                    alt="Joelson da Silva Francisco em uma sala de controle moderna com múltiplos monitores exibindo telas de supervisão elétrica"
-                    className="w-full rounded-lg"
+                    alt="Joelson da Silva Francisco em uma sala de controle com múltiplos monitores exibindo telas de supervisão elétrica"
+                    caption="Joelson na sala de controle: a supervisão de sistemas elétricos no dia a dia da operação industrial"
                   />
                   <p className="px-2 py-3 text-center text-xs text-muted-foreground">
                     Joelson na sala de controle: a supervisão de sistemas elétricos
@@ -268,10 +258,10 @@ export default function Sobre() {
         <section className="container py-14 md:py-20">
           <div className="grid items-center gap-10 lg:grid-cols-[0.9fr_1.1fr]">
             <motion.div {...fadeUp} className="jsf-panel order-2 overflow-hidden p-3 lg:order-1">
-              <img
+              <LightboxImage
                 src={PRINT_BIBLIOTECA}
                 alt="Biblioteca de componentes do simulador JSF Elétrico"
-                className="w-full rounded-lg"
+                caption="Biblioteca de componentes: cada item recriado com fidelidade ao mundo real"
               />
               <p className="px-2 py-3 text-center text-xs text-muted-foreground">
                 Biblioteca de componentes: cada item recriado com fidelidade ao mundo real
