@@ -97,4 +97,9 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
 - F20 CONCLUÍDA (checkpoint aeb3f560): seção "Conheça o desenvolvedor" na home entre banner e Como funciona
   (card clicável p/ /sobre com retrato circular + botão "Ver a história").
 - F21 CONCLUÍDA: seção FAQ na home (id="faq", accordion shadcn, 8 perguntas no array FAQ ~linha 190 Home.tsx),
-  link "FAQ" no nav, JSON-LD FAQPage via hook useFaqJsonLd. Entre "Acesso ao simulador" e CTA final.
+  link "FAQ" no nav, JSON-LD FAQPage via hook useFaqJsonLd. Entre "Acesso ao simulador" e CTA final. Checkpoint d2b9a82f.
+- F22 CONCLUÍDA (checkpoint 07ef775b): blockquote "Criei o app que eu queria ter quando comecei." na seção do desenvolvedor.
+- F23 CONCLUÍDA (checkpoint eea15694): botão "Acesse o simulador online" (ciano, Zap) no hero, link /simulador.
+- F24 CONCLUÍDA: simulador atualizado — novo HTML jsfeletrico1.html (10207 linhas, v115.1) com icone.png
+  substituído por /manus-storage/icone_app_cdd01151.png; storage key nova simulador_novo_5ea4e836.html
+  em server/simuladorRoute.ts (antiga: simulador_0278dc9f.html). Testado: login admin + GET /api/simulador HTTP 200.

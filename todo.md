@@ -125,3 +125,8 @@
 ## Fase 23 — Botão "Acesse o simulador online" no hero
 - [x] Adicionar botão para /simulador ao lado do "Baixar grátis na Play Store" no início da home
 - [x] Verificar visual/build, checkpoint e entrega
+
+## Fase 24 — Atualizar o simulador do site (jsfeletrico1.html)
+- [x] Ajustar referências internas do novo HTML (icone.png -> storage) e comparar com versão atual
+- [x] Enviar novo HTML ao storage e atualizar a key em server/simuladorRoute.ts
+- [x] Testar carregamento do simulador logado, checkpoint e entrega
