@@ -7,6 +7,7 @@
  */
 import { useEffect, useMemo, useState } from "react";
 import { useSeo } from "@/hooks/useSeo";
+import VinhetaSimulador, { prepararAudioVinheta } from "@/components/VinhetaSimulador";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import {
@@ -210,6 +211,8 @@ function TelaLogin({ onLogged }: { onLogged: () => void }) {
             className="mt-6 space-y-4"
             onSubmit={e => {
               e.preventDefault();
+              // Destrava o áudio da vinheta durante o gesto do usuário (clique/enter)
+              prepararAudioVinheta();
               login.mutate({ email, password: senha });
             }}
           >
@@ -839,6 +842,7 @@ export default function Simulador() {
   const utils = trpc.useUtils();
   const { data: sessao, isLoading } = trpc.sim.me.useQuery();
   const [aba, setAba] = useState<Aba>("simulador");
+  const [mostrarVinheta, setMostrarVinheta] = useState(false);
 
   const logout = trpc.sim.logout.useMutation({
     onSuccess: () => {
@@ -952,7 +956,12 @@ export default function Simulador() {
           <Loader2 className="h-5 w-5 animate-spin" /> Verificando acesso...
         </div>
       ) : !sessao ? (
-        <TelaLogin onLogged={() => utils.sim.me.invalidate()} />
+        <TelaLogin
+          onLogged={() => {
+            setMostrarVinheta(true);
+            utils.sim.me.invalidate();
+          }}
+        />
       ) : sessao.role === "admin" ? (
         aba === "simulador" ? (
           <VisualizadorSimulador />
@@ -966,6 +975,9 @@ export default function Simulador() {
       ) : (
         <VisualizadorSimulador />
       )}
+
+      {/* Vinheta de abertura após login bem-sucedido */}
+      {mostrarVinheta && <VinhetaSimulador onFim={() => setMostrarVinheta(false)} />}
     </div>
   );
 }

@@ -103,3 +103,23 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
 - F24 CONCLUÍDA: simulador atualizado — novo HTML jsfeletrico1.html (10207 linhas, v115.1) com icone.png
   substituído por /manus-storage/icone_app_cdd01151.png; storage key nova simulador_novo_5ea4e836.html
   em server/simuladorRoute.ts (antiga: simulador_0278dc9f.html). Testado: login admin + GET /api/simulador HTTP 200.
+  Checkpoint 54afc985. Publicado.
+
+## Fase 25 (em andamento) — Vinheta animada EM CÓDIGO após login do simulador
+- Usuário quer: ao apertar "Entrar" e login ok, vinheta de ~2-3s FEITA EM CÓDIGO (não vídeo/foto):
+  raios elétricos azuis/brancos cruzando a tela + "JSF Elétrico" (JSF branco itálico bold, "Elétrico" ciano neon
+  itálico com glow) + diagrama ladder animado embaixo (KM1, KT1 1.5s, KT2 2.5s, H1-H3 acendendo em sequência,
+  pontos de corrente percorrendo linhas verdes) + "Seja bem-vindo" abaixo do diagrama + som de descarga
+  elétrica via Web Audio API. SEM: frase do desenvolvedor, Play Store, endereço do site.
+  Estilo: fundo azul-marinho quase preto, bordas com pulso vermelho (esq) e azul (dir), estilo do vídeo de referência
+  (análise completa em /home/ubuntu/video_84575e90-77cf-11f1-99c2-b9b2f1c30b7b_analysis_20260707_202813.md).
+- Integração: client/src/pages/Simulador.tsx — TelaLogin (linha ~168) tem onSuccess -> onLogged() ->
+  utils.sim.me.invalidate() (linha ~955). Plano: estado mostrarVinheta no componente principal (linha ~831),
+  ativado no onLogged; overlay fullscreen z-alto por ~3s antes de exibir VisualizadorSimulador (iframe /api/simulador).
+  Criar componente client/src/components/VinhetaSimulador.tsx com onFim callback.
+- Atenção: som só pode tocar após gesto do usuário (clique em Entrar conta como gesto — ok Web Audio).
+- F25 CONCLUÍDA: VinhetaSimulador.tsx criado (raios SVG, título neon, diagrama ladder animado, SEJA BEM-VINDO,
+  som Web Audio: estalo + zap + pulsos graves + hum; DURACAO_MS=3200). prepararAudioVinheta() exportado e chamado
+  no onSubmit do login (user activation). CSS: bloco "Vinheta do simulador" no fim do index.css.
+  Integração: estado mostrarVinheta no Simulador(), ativado no onLogged. E2E testado no navegador: login admin ->
+  vinheta com raios/título/diagrama/bem-vindo -> simulador (tela inicial própria v115.7 com botão Entrar) OK.

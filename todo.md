@@ -130,3 +130,12 @@
 - [x] Ajustar referências internas do novo HTML (icone.png -> storage) e comparar com versão atual
 - [x] Enviar novo HTML ao storage e atualizar a key em server/simuladorRoute.ts
 - [x] Testar carregamento do simulador logado, checkpoint e entrega
+
+## Fase 25 — Vinheta animada EM CÓDIGO após o login do simulador
+- [x] Criar componente de vinheta (HTML/CSS/JS): raios/elétrons nas letras "JSF Elétrico", diagrama embaixo, "Seja bem-vindo" abaixo, ~2-3s, com som de energia (Web Audio)
+- [x] Sem frase do desenvolvedor, sem Play Store, sem endereço do site
+- [x] Exibir após login bem-sucedido no /simulador, depois abre o simulador normal
+- [x] Testar fluxo de login, checkpoint e entrega
+- [x] Testar login E2E no navegador: vinheta aparece ~3s e depois abre o iframe do simulador
+- [x] Garantir áudio compatível com política de user-activation (tocar já no clique de Entrar)
+- [x] Checkpoint após validação e entrega formal
