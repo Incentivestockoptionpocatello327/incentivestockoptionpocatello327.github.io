@@ -8,7 +8,7 @@ import { getSessionFromRequest } from "./simAuth";
 import { getSimUserById, logAudit } from "./simDb";
 import { getClientInfo } from "./simAuth";
 
-const SIMULADOR_STORAGE_KEY = "simulador_novo_5ea4e836.html";
+const SIMULADOR_STORAGE_KEY = "simulador_v1158_3058034a.html";
 
 let cachedHtml: string | null = null;
 

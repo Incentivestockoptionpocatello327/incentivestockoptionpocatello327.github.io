@@ -139,3 +139,22 @@
 - [x] Testar login E2E no navegador: vinheta aparece ~3s e depois abre o iframe do simulador
 - [x] Garantir áudio compatível com política de user-activation (tocar já no clique de Entrar)
 - [x] Checkpoint após validação e entrega formal
+
+## Fase 26 — Vinheta dentro do HTML do simulador (arquivo do usuário)
+- [x] Implementar a vinheta (raios + JSF Elétrico + diagrama + Seja bem-vindo + som) dentro do jsfeletrico1.html, disparada pelo botão Entrar da splash do app
+- [x] Testar o HTML no navegador e devolver o arquivo completo ao usuário
+- [x] Saída gerada como novo arquivo derivado do original: entrega_vinheta/jsfeletrico_com_vinheta.html (original preservado)
+- [x] Anexar o HTML final na mensagem de entrega (feito na entrega anterior)
+
+## Fase 27 — Corrigir bug do áudio do motor no HTML com vinheta
+- [x] Bug: vinheta cria window.audioContext antes do fluxo original; bloco que inicializa audioBuffers/audioSources/motorAudioStates é pulado -> TypeError 'constante' em gerenciarAudioMotor
+- [x] Corrigir injeção: vinheta usa AudioContext próprio temporário; window.audioContext fica para o fluxo original criar com os buffers
+- [x] Testar no navegador: audioBuffers['constante'] carregado corretamente após entrar
+- [x] Reentregar formalmente o HTML corrigido ao usuário (entregue com a correção do áudio)
+
+## Fase 28 — Atualizar simulador do site para v115.8 (com vinheta)
+- [x] Atualizar versão exibida no HTML para 115.8 (title, splash, sobre, rodapé e VERSAO_APP)
+- [x] Ajustar referências (icone.png -> storage) como na atualização anterior
+- [x] Enviar HTML ao storage (simulador_v1158_3058034a.html) e atualizar key em server/simuladorRoute.ts
+- [x] Testar carregamento logado (v115.8 + vinheta confirmadas na resposta)
+- [ ] Salvar checkpoint e entregar formalmente ao usuário

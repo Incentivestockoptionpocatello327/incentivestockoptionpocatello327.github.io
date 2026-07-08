@@ -123,3 +123,40 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
   no onSubmit do login (user activation). CSS: bloco "Vinheta do simulador" no fim do index.css.
   Integração: estado mostrarVinheta no Simulador(), ativado no onLogged. E2E testado no navegador: login admin ->
   vinheta com raios/título/diagrama/bem-vindo -> simulador (tela inicial própria v115.7 com botão Entrar) OK.
+  Checkpoint e99f5fea. Publicado. Código entregue ao usuário em /home/ubuntu/entrega_vinheta/ (VinhetaSimulador.tsx,
+  vinheta.css, INTEGRACAO.md).
+
+## Fase 26 (em andamento) — Vinheta DENTRO do HTML do simulador (arquivo do usuário)
+- Usuário quer de volta o SEU arquivo jsfeletrico1.html (em /home/ubuntu/upload/jsfeletrico1.html, 10207 linhas)
+  com a vinheta implementada dentro dele: ao apertar o botão Entrar da splash do app, toca a vinheta
+  (raios + JSF Elétrico neon + diagrama ladder animado + Seja bem-vindo + som Web Audio ~3.2s) e depois entra.
+- Estrutura do HTML original: #splash-screen (linha 2021), #btn-entrar (linha 2046, div role=button),
+  referências JS: linha 5329 btnEntrar = getElementById("btn-entrar"); linha 9827 outro const btnEntrar;
+  linha 9955 const btn = getElementById('btn-entrar'). Preciso achar onde o click do btnEntrar é registrado
+  (provavelmente perto da linha 9955) e envolver com a vinheta antes de fechar o splash.
+- Já existe unlockAudio no HTML (linhas ~9820: window click/touchstart) — áudio da vinheta pode usar o mesmo contexto.
+- Plano: injetar bloco <style> com CSS da vinheta (adaptado de entrega_vinheta/vinheta.css) + <div id="vinheta-jsf">
+  oculto + função JS tocarVinhetaJSF(callback) baseada em entrega_vinheta/VinhetaSimulador.tsx (som Web Audio),
+  e interceptar o handler do btn-entrar para: mostrar vinheta -> após 3.2s -> executar fluxo original de entrada.
+- Entregar o arquivo final como jsfeletrico1_com_vinheta.html (ou mesmo nome) via attachment.
+- Versão do app no arquivo: 115.1 (splash-versao). Rodapé splash: www.jsfeletrico.com • Desenvolvedor: Joelson (manter, é o app dele).
+
+## F26 CONCLUÍDA + F27 (bug fix em andamento)
+- F26: vinheta injetada no HTML do usuário via /home/ubuntu/entrega_vinheta/injetar_vinheta.py:
+  transforma handler btnEntrar em const entrarNoAppJSF = () => {...}; novo listener chama
+  window.tocarVinhetaJSF(entrarNoAppJSF). Bloco da vinheta (style+div#vinheta-jsf+script) em
+  /home/ubuntu/entrega_vinheta/bloco_vinheta.html, injetado antes de </body>.
+  Saída: /home/ubuntu/entrega_vinheta/jsfeletrico_com_vinheta.html (10525 linhas). Testado: vinheta OK, app abre.
+  ENTREGUE ao usuário.
+- F27 BUG reportado pelo usuário (no APK, arquivo dele jsfeletrico2.html): TypeError 'constante' undefined em
+  gerenciarAudioMotor — causa: minha primeira versão criava window.audioContext no clique ANTES do fluxo original;
+  o bloco original `if (!window.audioContext) { ...cria audioBuffers/audioSources/motorAudioStates... }` era pulado
+  => window.audioBuffers undefined => erro ao simular motor.
+- FIX aplicado: (1) injetar_vinheta.py não cria mais window.audioContext no listener; (2) bloco_vinheta.html usa
+  AudioContext PRÓPRIO temporário (var ctx = new Ctx()) e fecha no fim. Falta: regerar arquivo, testar simulação
+  com motor no navegador (montar circuito ou carregar salvo) e reentregar.
+- Servidor de teste local: python3 http.server porta 8899 em /home/ubuntu/entrega_vinheta/.
+- Original do usuário intacto em /home/ubuntu/upload/jsfeletrico1.html (10207 linhas).
+- Handler original do Entrar: linha 5883 (upload). Inicialização de áudio motores: dentro do handler,
+  if (!window.audioContext) cria ctx + audioBuffers com fetch dos <audio> ids audio-motor-partindo/constante/
+  desacelerando/travado. gerenciarAudioMotor usa window.audioBuffers['constante'] etc.
