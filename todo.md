@@ -157,4 +157,10 @@
 - [x] Ajustar referências (icone.png -> storage) como na atualização anterior
 - [x] Enviar HTML ao storage (simulador_v1158_3058034a.html) e atualizar key em server/simuladorRoute.ts
 - [x] Testar carregamento logado (v115.8 + vinheta confirmadas na resposta)
-- [ ] Salvar checkpoint e entregar formalmente ao usuário
+- [x] Salvar checkpoint e entregar formalmente ao usuário
+
+## Fase 29 — Troca de senha (admin e usuários)
+- [x] Mostrar botão "Redefinir senha" também na linha do admin no painel (manter desativar/excluir ocultos para admin)
+- [x] Backend: procedure sim.alterarMinhaSenha (senha atual + nova, min 6, log de auditoria)
+- [x] Frontend: botão "Alterar senha" no header para qualquer usuário logado + modal com confirmação
+- [x] Testes vitest da nova procedure (5 testes, 14/14 passando), verificação visual, checkpoint e entrega

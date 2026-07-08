@@ -56,6 +56,7 @@ const EVENTO_LABEL: Record<string, { label: string; cor: string }> = {
   solicitacao_acesso: { label: "Solicitou acesso", cor: "text-cyan-400" },
   admin_aprovar_solicitacao: { label: "Admin: aprovou solicitação", cor: "text-emerald-400" },
   admin_dispensar_solicitacao: { label: "Admin: dispensou solicitação", cor: "text-slate-400" },
+  trocar_senha: { label: "Alterou a própria senha", cor: "text-violet-400" },
 };
 
 /* ------------------------------------------------------------------ */
@@ -292,6 +293,122 @@ function TelaLogin({ onLogged }: { onLogged: () => void }) {
             </a>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Modal: alterar a própria senha                                      */
+/* ------------------------------------------------------------------ */
+
+function ModalAlterarSenha({ onFechar }: { onFechar: () => void }) {
+  const [senhaAtual, setSenhaAtual] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const [confirmar, setConfirmar] = useState("");
+  const [mostrar, setMostrar] = useState(false);
+
+  const alterar = trpc.sim.alterarMinhaSenha.useMutation({
+    onSuccess: () => {
+      toast.success("Senha alterada com sucesso!");
+      onFechar();
+    },
+    onError: e => toast.error(e.message),
+  });
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm"
+      onClick={onFechar}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Alterar minha senha"
+    >
+      <div className="jsf-panel-teal w-full max-w-sm p-6 sm:p-7" onClick={e => e.stopPropagation()}>
+        <h2 className="font-display flex items-center gap-2 text-lg font-bold text-white">
+          <KeyRound className="h-5 w-5 text-[#38bdf8]" /> Alterar minha senha
+        </h2>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Informe a senha atual e escolha a nova senha (mínimo 6 caracteres).
+        </p>
+        <form
+          className="mt-5 space-y-3.5"
+          onSubmit={e => {
+            e.preventDefault();
+            if (novaSenha.length < 6) {
+              toast.error("A nova senha deve ter pelo menos 6 caracteres");
+              return;
+            }
+            if (novaSenha !== confirmar) {
+              toast.error("A confirmação não confere com a nova senha");
+              return;
+            }
+            alterar.mutate({ senhaAtual, novaSenha });
+          }}
+        >
+          <div>
+            <label htmlFor="senha-atual" className="mb-1.5 block text-sm font-medium text-white/85">Senha atual</label>
+            <input
+              id="senha-atual"
+              type={mostrar ? "text" : "password"}
+              required
+              autoComplete="current-password"
+              value={senhaAtual}
+              onChange={e => setSenhaAtual(e.target.value)}
+              placeholder="••••••••"
+              className="w-full rounded-lg border border-border bg-background/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#38bdf8]"
+            />
+          </div>
+          <div>
+            <label htmlFor="senha-nova" className="mb-1.5 block text-sm font-medium text-white/85">Nova senha</label>
+            <input
+              id="senha-nova"
+              type={mostrar ? "text" : "password"}
+              required
+              minLength={6}
+              autoComplete="new-password"
+              value={novaSenha}
+              onChange={e => setNovaSenha(e.target.value)}
+              placeholder="Mín. 6 caracteres"
+              className="w-full rounded-lg border border-border bg-background/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#38bdf8]"
+            />
+          </div>
+          <div>
+            <label htmlFor="senha-confirma" className="mb-1.5 block text-sm font-medium text-white/85">Confirmar nova senha</label>
+            <input
+              id="senha-confirma"
+              type={mostrar ? "text" : "password"}
+              required
+              minLength={6}
+              autoComplete="new-password"
+              value={confirmar}
+              onChange={e => setConfirmar(e.target.value)}
+              placeholder="Repita a nova senha"
+              className="w-full rounded-lg border border-border bg-background/70 px-3 py-2.5 text-sm text-white outline-none transition focus:border-[#38bdf8]"
+            />
+          </div>
+          <label className="flex cursor-pointer items-center gap-2 text-xs text-white/70">
+            <input type="checkbox" checked={mostrar} onChange={e => setMostrar(e.target.checked)} className="accent-[#38bdf8]" />
+            Mostrar senhas
+          </label>
+          <div className="flex gap-2 pt-1">
+            <button
+              type="button"
+              onClick={onFechar}
+              className="flex-1 rounded-lg border border-white/15 bg-white/5 py-2.5 text-sm font-semibold text-white/80 transition hover:bg-white/10"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              disabled={alterar.isPending}
+              className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#166184] py-2.5 text-sm font-bold text-white transition hover:brightness-115 disabled:opacity-60"
+            >
+              {alterar.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <KeyRound className="h-4 w-4" />}
+              Salvar
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
@@ -541,8 +658,8 @@ function PainelUsuarios() {
                       )}
                     </td>
                     <td className="px-5 py-3">
-                      {u.role !== "admin" && (
-                        <div className="flex items-center justify-end gap-1.5">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {u.role !== "admin" && (
                           <button
                             title={u.ativo ? "Desativar acesso" : "Ativar acesso"}
                             onClick={() => alternar.mutate({ id: u.id, ativo: !u.ativo })}
@@ -552,17 +669,19 @@ function PainelUsuarios() {
                           >
                             <Power className="h-4 w-4" />
                           </button>
-                          <button
-                            title="Redefinir senha"
-                            onClick={() => {
-                              const nova = window.prompt(`Nova senha para ${u.email} (mín. 6 caracteres):`, `jsf-${Math.random().toString(36).slice(2, 8)}`);
-                              if (nova && nova.length >= 6) redefinir.mutate({ id: u.id, password: nova });
-                              else if (nova) toast.error("A senha deve ter pelo menos 6 caracteres");
-                            }}
-                            className="rounded-md border border-border/60 p-2 text-[#38bdf8] transition hover:bg-white/5"
-                          >
-                            <KeyRound className="h-4 w-4" />
-                          </button>
+                        )}
+                        <button
+                          title="Redefinir senha"
+                          onClick={() => {
+                            const nova = window.prompt(`Nova senha para ${u.email} (mín. 6 caracteres):`, `jsf-${Math.random().toString(36).slice(2, 8)}`);
+                            if (nova && nova.length >= 6) redefinir.mutate({ id: u.id, password: nova });
+                            else if (nova) toast.error("A senha deve ter pelo menos 6 caracteres");
+                          }}
+                          className="rounded-md border border-border/60 p-2 text-[#38bdf8] transition hover:bg-white/5"
+                        >
+                          <KeyRound className="h-4 w-4" />
+                        </button>
+                        {u.role !== "admin" && (
                           <button
                             title="Excluir usuário"
                             onClick={() => {
@@ -574,8 +693,8 @@ function PainelUsuarios() {
                           >
                             <Trash2 className="h-4 w-4" />
                           </button>
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -843,6 +962,7 @@ export default function Simulador() {
   const { data: sessao, isLoading } = trpc.sim.me.useQuery();
   const [aba, setAba] = useState<Aba>("simulador");
   const [mostrarVinheta, setMostrarVinheta] = useState(false);
+  const [mostrarTrocaSenha, setMostrarTrocaSenha] = useState(false);
 
   const logout = trpc.sim.logout.useMutation({
     onSuccess: () => {
@@ -916,6 +1036,14 @@ export default function Simulador() {
               )}
               <span className="hidden max-w-[160px] truncate text-xs text-white/70 lg:inline">{sessao.email}</span>
               <button
+                onClick={() => setMostrarTrocaSenha(true)}
+                title="Alterar minha senha"
+                className="flex items-center gap-1.5 rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
+              >
+                <KeyRound className="h-4 w-4" />
+                <span className="hidden md:inline">Alterar senha</span>
+              </button>
+              <button
                 onClick={() => logout.mutate()}
                 title="Sair"
                 className="flex items-center gap-1.5 rounded-lg border border-white/20 bg-white/5 px-3 py-2 text-sm font-semibold text-white transition hover:bg-white/10"
@@ -978,6 +1106,9 @@ export default function Simulador() {
 
       {/* Vinheta de abertura após login bem-sucedido */}
       {mostrarVinheta && <VinhetaSimulador onFim={() => setMostrarVinheta(false)} />}
+
+      {/* Modal de troca de senha do usuário logado */}
+      {mostrarTrocaSenha && <ModalAlterarSenha onFechar={() => setMostrarTrocaSenha(false)} />}
     </div>
   );
 }

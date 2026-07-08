@@ -138,6 +138,34 @@ export const simRouter = router({
       return { id: user.id, email: user.email, nome: user.nome, role: user.role };
     }),
 
+  /** Usuário logado altera a própria senha informando a senha atual */
+  alterarMinhaSenha: publicProcedure
+    .input(
+      z.object({
+        senhaAtual: z.string().min(1, "Informe a senha atual"),
+        novaSenha: z.string().min(6, "A nova senha deve ter pelo menos 6 caracteres"),
+      })
+    )
+    .mutation(async ({ ctx, input }) => {
+      const session = await requireSession(ctx.req);
+      const user = await getSimUserById(session.uid);
+      if (!user) throw new TRPCError({ code: "NOT_FOUND", message: "Usuário não encontrado" });
+      if (!verifyPassword(input.senhaAtual, user.passwordHash)) {
+        throw new TRPCError({ code: "UNAUTHORIZED", message: "Senha atual incorreta" });
+      }
+      await updateSimUser(user.id, { passwordHash: hashPassword(input.novaSenha) });
+      const { ip, userAgent } = getClientInfo(ctx.req);
+      await logAudit({
+        userId: user.id,
+        email: user.email,
+        evento: "trocar_senha",
+        detalhe: "Alterou a própria senha",
+        ip,
+        userAgent,
+      });
+      return { success: true } as const;
+    }),
+
   logout: publicProcedure.mutation(async ({ ctx }) => {
     const session = await getSessionFromRequest(ctx.req);
     if (session) {

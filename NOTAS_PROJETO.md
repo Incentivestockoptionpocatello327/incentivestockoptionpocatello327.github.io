@@ -160,3 +160,15 @@ JSF elétrico, dev Joelson da Silva Francisco, v115.3, https://play.google.com/s
 - Handler original do Entrar: linha 5883 (upload). Inicialização de áudio motores: dentro do handler,
   if (!window.audioContext) cria ctx + audioBuffers com fetch dos <audio> ids audio-motor-partindo/constante/
   desacelerando/travado. gerenciarAudioMotor usa window.audioBuffers['constante'] etc.
+
+## F28 CONCLUÍDA — simulador v115.8 no site
+- Storage key atual: simulador_v1158_3058034a.html em server/simuladorRoute.ts. Checkpoint f1317038 salvo e entregue. Site publicado pelo usuário (deployment successful).
+
+## F29 EM ANDAMENTO — troca de senha
+- Backend FEITO: procedure sim.alterarMinhaSenha em server/simRouter.ts (após login, antes de logout): input {senhaAtual, novaSenha(min 6)}, usa requireSession + verifyPassword + updateSimUser + logAudit evento "trocar_senha".
+- FALTA no frontend (client/src/pages/Simulador.tsx):
+  1. Tabela usuários (linha ~543-579): botões só aparecem se u.role !== "admin". Mudar para: div sempre renderizada; Power e Trash2 só para não-admin; KeyRound (Redefinir senha) para TODOS inclusive admin.
+  2. Botão "Alterar minha senha" no header logado (perto do botão Sair, linha ~917-925): abre modal/prompt pedindo senha atual + nova; mutation trpc.sim.alterarMinhaSenha.
+  3. Adicionar evento "trocar_senha" ao EVENTO_LABEL (linha ~43-59) do Simulador.tsx: label "Alterou a própria senha", cor text-violet-400.
+- Depois: pnpm check, testes vitest (server/simAuth.test.ts existe; criar teste para alterarMinhaSenha se viável), screenshot, checkpoint, entrega.
+- Estrutura: componente principal Simulador() linha ~834; header com sessao && (linha 894); logout mutation linha ~847.
